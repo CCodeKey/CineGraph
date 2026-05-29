@@ -45,11 +45,11 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		<!-- Source: https://mvnrepository.com/artifact/com.arangodb/arangodb-java-driver -->
+		<!-- Source: https://mvnrepository.com/artifact/com.arangodb/arangodb-spring-data -->
 		<dependency>
 			<groupId>com.arangodb</groupId>
-			<artifactId>arangodb-java-driver</artifactId>
-			<version>7.24.1</version>
+			<artifactId>arangodb-spring-data</artifactId>
+			<version>5.0.0</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
