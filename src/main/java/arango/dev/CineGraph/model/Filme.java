@@ -1,11 +1,15 @@
 package arango.dev.CineGraph.model;
 
 import com.arangodb.springframework.annotation.Document;
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
-@Data
 @Document("filmes")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Filme {
 
     @Id

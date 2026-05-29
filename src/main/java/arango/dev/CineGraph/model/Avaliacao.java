@@ -1,21 +1,25 @@
 package arango.dev.CineGraph.model;
 
-import com.arangodb.springframework.annotation.Edge;
-import lombok.Data;
+import com.arangodb.springframework.annotation.Document;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
-@Data
-@Edge("avaliacoes")
+@Document("avaliacoes")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Avaliacao {
 
     @Id
     private String id;
 
-    private String _from;
-
-    private String _to;
+    private String comentario;
 
     private Integer nota;
 
-    private String comentario;
+    private String usuarioId;
+
+    private String filmeId;
 }
