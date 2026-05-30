@@ -17,6 +17,26 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
+    public Usuario atualizar(String id, Usuario usuarioAtualizado) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        usuario.setNome(usuarioAtualizado.getNome());
+        usuario.setIdade(usuarioAtualizado.getIdade());
+        usuario.setEmail(usuarioAtualizado.getEmail());
+
+        return usuarioRepository.save(usuario);
+    }
+
+    public Usuario buscarPorId(String id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
+
+    public Usuario buscarPorEmail(String email) {
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
+
     public Iterable<Usuario> listar() {
         return usuarioRepository.findAll();
     }
@@ -24,4 +44,5 @@ public class UsuarioService {
     public void deletar(String id) {
         usuarioRepository.deleteById(id);
     }
+
 }
