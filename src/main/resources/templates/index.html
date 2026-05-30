@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineGraph - Dashboard de Apresentação</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f1f5f9; color: #0f172a; font-size: 1.15rem; }
+        .navbar-custom { background-color: #1e3a8a; padding: 1.5rem 0; }
+        .card-presentation { background: #ffffff; border: none; border-radius: 16px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); padding: 2.5rem; }
+        .table-presentation { font-size: 1.2rem; }
+        .table-presentation th { background-color: #f8fafc !important; color: #475569; font-weight: 700; text-transform: uppercase; font-size: 1rem; letter-spacing: 1px; padding: 15px; }
+        .table-presentation td { padding: 18px 15px; vertical-align: middle; }
+        .btn-presentation { font-size: 1.1rem; padding: 10px 24px; font-weight: 600; border-radius: 8px; text-decoration: none; }
+        .badge-genre { background-color: #e0f2fe; color: #0369a1; font-size: 1.05rem; padding: 6px 14px; }
+        .badge-rating { background-color: #fef3c7; color: #92400e; font-size: 1.1rem; padding: 6px 14px; font-weight: bold; }
+        .text-id { font-family: monospace; font-size: 0.95rem; color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark navbar-custom mb-5">
+    <div class="container">
+        <span class="navbar-brand fs-2 fw-bold">🎬 Cine<span class="text-warning">Graph</span></span>
+        <span class="navbar-text text-white fs-5 fw-medium d-none d-md-inline">Projeto Database II — Interface ArangoDB</span>
+    </div>
+</nav>
+
+<div class="container pb-5">
+
+    <div class="card card-presentation mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h2 fw-bold m-0 text-primary">🎥 Filmes Disponíveis</h2>
+            <a th:href="@{/web/filmes/novo}" class="btn btn-primary btn-presentation">+ Cadastrar Filme</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-presentation align-middle m-0">
+                <thead>
+                <tr>
+                    <th style="width: 20%;">ID (Arango Key)</th>
+                    <th style="width: 40%;">Título do Filme</th>
+                    <th style="width: 20%;">Gênero</th>
+                    <th style="width: 10%;">Ano</th>
+                    <th style="width: 10%;" class="text-center">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="filme : ${filmes}">
+                    <td th:text="${filme.id}" class="text-id"></td>
+                    <td th:text="${filme.titulo}" class="fw-bold text-dark fs-4"></td>
+                    <td><span class="badge badge-genre rounded-pill" th:text="${filme.genero}"></span></td>
+                    <td th:text="${filme.ano}" class="fw-semibold"></td>
+                    <td class="text-center">
+                        <a th:href="@{/web/filmes/deletar/{id}(id=${filme.id})}" class="btn btn-outline-danger btn-sm px-3">Excluir</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(filmes)}">
+                    <td colspan="5" class="text-center text-muted py-5">Nenhum filme localizado no ArangoDB.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card card-presentation mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h2 fw-bold m-0 text-primary">👤 Usuários da Plataforma</h2>
+            <a th:href="@{/web/usuarios/novo}" class="btn btn-primary btn-presentation">+ Cadastrar Usuário</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-presentation align-middle m-0">
+                <thead>
+                <tr>
+                    <th style="width: 20%;">ID</th>
+                    <th style="width: 35%;">Nome</th>
+                    <th style="width: 15%;">Idade</th>
+                    <th style="width: 20%;">E-mail</th>
+                    <th style="width: 10%;" class="text-center">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="usuario : ${usuarios}">
+                    <td th:text="${usuario.id}" class="text-id"></td>
+                    <td th:text="${usuario.nome}" class="fw-bold text-dark fs-4"></td>
+                    <td th:text="${usuario.idade} + ' anos'"></td>
+                    <td th:text="${usuario.email}" class="text-secondary"></td>
+                    <td class="text-center">
+                        <a th:href="@{/web/usuarios/deletar/{id}(id=${usuario.id})}" class="btn btn-outline-danger btn-sm px-3">Excluir</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(usuarios)}">
+                    <td colspan="5" class="text-center text-muted py-5">Nenhum usuário cadastrado.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card card-presentation mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h2 fw-bold m-0 text-primary">⭐ Avaliações e Críticas</h2>
+            <a th:href="@{/web/avaliacoes/novo}" class="btn btn-primary btn-presentation">+ Nova Avaliação</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-presentation align-middle m-0">
+                <thead>
+                <tr>
+                    <th style="width: 15%;">ID Avaliação</th>
+                    <th style="width: 20%;">ID Usuário</th>
+                    <th style="width: 20%;">ID Filme</th>
+                    <th style="width: 15%;">Nota</th>
+                    <th style="width: 20%;">Comentário</th>
+                    <th style="width: 10%;" class="text-center">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="aval : ${avaliacoes}">
+                    <td th:text="${aval.id}" class="text-id"></td>
+                    <td th:text="${aval.usuarioId}" class="text-id"></td>
+                    <td th:text="${aval.filmeId}" class="text-id"></td>
+                    <td><span class="badge badge-rating rounded" th:text="${aval.nota} + ' / 10'"></span></td>
+                    <td th:text="${aval.comentario}" class="fst-italic text-dark fs-5"></td>
+                    <td class="text-center">
+                        <a th:href="@{/web/avaliacoes/deletar/{id}(id=${aval.id})}" class="btn btn-outline-danger btn-sm px-3">Excluir</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(avaliacoes)}">
+                    <td colspan="6" class="text-center text-muted py-5">Nenhuma avaliação cadastrada ainda.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
